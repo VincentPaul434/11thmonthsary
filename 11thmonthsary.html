@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy 11th Monthsary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff5fb;
+      --card:#fff;
+      --accent:#ff6fa3;
+      --accent-2:#ffd3e6;
+      --text:#333;
+      --shadow: 0 10px 30px rgba(255,111,163,0.15);
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255,111,163,0.06), transparent 8%),
+        radial-gradient(circle at 90% 90%, rgba(255,215,230,0.06), transparent 8%),
+        var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:var(--text);
+    }
+
+    .scene{
+      width:100%;
+      max-width:760px;
+      position:relative;
+      padding:28px;
+    }
+
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--glass));
+      border-radius:20px;
+      padding:36px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:visible;
+    }
+
+    .title{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .title h1{
+      margin:0;
+      font-family:"Dancing Script", cursive;
+      font-size:30px;
+      color:var(--accent);
+      letter-spacing:0.5px;
+    }
+    .sub{
+      margin:0;
+      font-size:13px;
+      color:#6b6b6b;
+    }
+
+    /* Envelope */
+    .envelope-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:18px;
+      position:relative;
+    }
+
+    .envelope{
+      width:360px;
+      max-width:90%;
+      height:220px;
+      position:relative;
+      perspective:800px;
+      cursor:pointer;
+    }
+
+    .env-front, .env-back, .env-flap{
+      position:absolute;
+      left:0; right:0; margin:auto;
+      width:100%;
+      height:100%;
+      border-radius:12px;
+      transition:transform 600ms cubic-bezier(.2,.9,.28,1), box-shadow 300ms;
+      transform-origin:top center;
+      box-shadow:0 8px 30px rgba(0,0,0,0.08);
+      overflow:hidden;
+    }
+
+    .env-back{
+      background:linear-gradient(180deg,var(--accent-2),#fff);
+      transform:translateY(8px);
+      z-index:1;
+    }
+
+    .env-front{
+      background:linear-gradient(180deg,#fff,var(--accent-2));
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      gap:12px;
+    }
+
+    .env-front .seal{
+      width:74px;
+      height:74px;
+      border-radius:50%;
+      background:var(--accent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+      font-family:"Dancing Script",cursive;
+      font-size:22px;
+      box-shadow:0 6px 18px rgba(255,111,163,0.2);
+    }
+
+    .env-flap{
+      height:50%;
+      top:-2px;
+      z-index:3;
+      background:linear-gradient(180deg,var(--accent),#ff9bc2);
+      transform-origin:top;
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding-top:16px;
+      transition:transform 600ms cubic-bezier(.2,.9,.28,1);
+    }
+
+    .envelope.open .env-flap{
+      transform: rotateX(180deg) translateY(-18px);
+    }
+    .envelope.open .env-front{
+      transform: translateY(88px) scale(0.98);
+      box-shadow:0 18px 40px rgba(0,0,0,0.08);
+    }
+    .letter{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%) translateY(120%);
+      top:0;
+      width:86%;
+      background:linear-gradient(180deg,#fff, #fffefc);
+      height:260px;
+      z-index:4;
+      border-radius:12px;
+      box-shadow:0 18px 50px rgba(0,0,0,0.08);
+      padding:28px;
+      opacity:0;
+      transition:transform 700ms cubic-bezier(.2,.9,.28,1), opacity 400ms;
+      overflow:auto;
+    }
+
+    .envelope.open .letter{
+      transform:translateX(-50%) translateY(8%);
+      opacity:1;
+    }
+
+    .letter h2{
+      margin:0 0 8px 0;
+      font-family:"Dancing Script",cursive;
+      color:var(--accent);
+      font-size:26px;
+    }
+    .letter p{
+      margin:0;
+      color:#444;
+      line-height:1.5;
+    }
+
+    .controls{
+      margin-top:16px;
+      display:flex;
+      gap:8px;
+      justify-content:center;
+    }
+    .btn{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(255,111,163,0.18);
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:2px solid rgba(255,111,163,0.12);
+      box-shadow:none;
+    }
+
+    /* floating hearts */
+    .hearts{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:visible;
+    }
+    .heart{
+      position:absolute;
+      width:18px;
+      height:18px;
+      transform:translateY(0);
+      opacity:0.95;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp{
+      from{transform:translateY(0) scale(0.9); opacity:1}
+      to{transform:translateY(-140px) scale(1.15); opacity:0}
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:480px){
+      .letter{height:240px; padding:20px}
+      .env-front .seal{width:60px;height:60px;font-size:20px}
+      .title h1{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="card" role="group" aria-label="11th monthsary card">
+      <div class="title">
+        <h1>Happy 11th Monthsary</h1>
+        <p class="sub">A little letter, lots of love</p>
+      </div>
+
+      <div class="envelope-wrap">
+        <div class="envelope" id="envelope" title="Click to open the letter" role="button" aria-pressed="false">
+          <div class="env-back"></div>
+          <div class="env-front">
+            <div style="text-align:center">
+              <div style="font-size:12px;color:#fff;margin-bottom:6px">For my love</div>
+              <div class="seal">♥</div>
+            </div>
+          </div>
+          <div class="env-flap"></div>
+
+          <article class="letter" id="letter" aria-hidden="true">
+            <h2>To my dearest</h2>
+            <p>Happy 11 months, my love. Every day with you feels like a gentle surprise — warm, bright, and full of laughter. You're my favorite hello and my hardest goodbye. Thank you for being patient, silly, and steady. Here's to our little adventures, cozy mornings, and countless memories still to come.</p>
+            <p style="margin-top:12px; font-weight:600; color:var(--accent)">Always yours,</p>
+            <p style="margin:0; font-family:'Dancing Script',cursive; font-size:18px; color:#d44">— BB Vincent Paul </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="toggle">Open Letter</button>
+        <button class="btn secondary" id="reset">Close</button>
+      </div>
+
+      <div class="hearts" aria-hidden="true" id="hearts"></div>
+    </div>
+  </div>
+
+  <script>
+    const env = document.getElementById('envelope');
+    const toggle = document.getElementById('toggle');
+    const reset = document.getElementById('reset');
+    const hearts = document.getElementById('hearts');
+
+    function setOpen(open){
+      if(open){
+        env.classList.add('open');
+        env.setAttribute('aria-pressed','true');
+        document.getElementById('letter').setAttribute('aria-hidden','false');
+        toggle.textContent = 'Close Letter';
+      } else {
+        env.classList.remove('open');
+        env.setAttribute('aria-pressed','false');
+        document.getElementById('letter').setAttribute('aria-hidden','true');
+        toggle.textContent = 'Open Letter';
+      }
+    }
+
+    env.addEventListener('click', ()=> setOpen(!env.classList.contains('open')));
+    toggle.addEventListener('click', ()=> setOpen(!env.classList.contains('open')));
+    reset.addEventListener('click', ()=> setOpen(false));
+
+    // Generate floating hearts
+    const colors = ['#ff8fb0','#ffd2e1','#ff6fa3','#ffb6d8'];
+    for(let i=0;i<12;i++){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.style.left = (6 + Math.random()*88) + '%';
+      h.style.bottom = (6 + Math.random()*16) + '%';
+      h.style.width = 14 + Math.random()*18 + 'px';
+      h.style.height = h.style.width;
+      h.style.background = colors[Math.floor(Math.random()*colors.length)];
+      h.style.clipPath = 'path("M10 3C10 1.34315 8.65685 0 7 0C5.34315 0 4 1.34315 4 3C4 6 10 9.5 10 9.5C10 9.5 16 6 16 3C16 1.34315 14.6569 0 13 0C11.3431 0 10 1.34315 10 3Z")';
+      h.style.animationDuration = (6 + Math.random()*6) + 's';
+      h.style.animationDelay = (-Math.random()*6) + 's';
+      hearts.appendChild(h);
+    }
+  </script>
+</body>
+</html>

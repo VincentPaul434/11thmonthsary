@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "11thmonthsary.html", "use": "@vercel/static" },
+    { "src": "/*.html", "use": "@vercel/static" },
+    { "src": "assets/**/*", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/11thmonthsary.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}
